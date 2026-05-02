@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>15 Anos de Yohanna | Confirmação de Presença</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600&family=Playfair+Display:ital,wght@0,700;1,700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <!-- Firebase SDKs -->
+    <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-database-compat.js"></script>
+</head>
+
+<body>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-content">
+            <div class="image-frame">
+                <img src="../fotoAniversariante.png" alt="Yohanna - 15 Anos">
+            </div>
+            <p>CONVITE ESPECIAL</p>
+            <h1>Yohanna</h1>
+            <p>15 ANOS DE VIDA E ALEGRIA</p>
+            <div class="event-summary">
+                <p><strong>16 de Maio de 2026</strong></p>
+                <p>Sabará - MG</p>
+            </div>
+        </div>
+    </section>
+
+    <div class="container">
+        <!-- Event Details -->
+        <section id="detalhes" style="text-align: center; margin-top: 4rem;">
+            <h2 class="section-title">O Grande Dia</h2>
+            <p style="font-size: 1.2rem; max-width: 800px; margin: 0 auto;">
+                Preparem o coração para uma noite mágica. Nossa querida <strong>Yohanna da Silva de Araújo Lima</strong>
+                celebra seu debut em uma festa inesquecível.
+            </p>
+            <div class="event-details-grid"
+                style="margin-top: 3rem; display: flex; justify-content: center; gap: 3rem; flex-wrap: wrap;">
+                <div class="detail-item">
+                    <h3 style="color: var(--olive-primary)">Data</h3>
+                    <p>Sábado, 16 de Maio de 2026</p>
+                </div>
+                <div class="detail-item">
+                    <h3 style="color: var(--olive-primary)">Horário</h3>
+                    <p>A partir das 20:00h</p>
+                </div>
+                <div class="detail-item">
+                    <h3 style="color: var(--olive-primary)">Local</h3>
+                    <p>Rua Serra do Ouro, 22,<br>Bairro Morada da Serra, Sabará-MG</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- RSVP Section -->
+        <section id="confirmacao">
+            <h2 class="section-title">Confirme sua Presença</h2>
+            <p style="text-align: center; margin-bottom: 2rem;">Selecione sua categoria e encontre seu nome na lista.
+            </p>
+
+            <div class="tabs">
+                <button class="tab-btn active" onclick="switchCategory('familia')">FAMÍLIA</button>
+                <button class="tab-btn" onclick="switchCategory('amigos')">AMIGOS</button>
+            </div>
+
+            <div id="loading-guests" style="text-align: center; display: none;">Carregando lista...</div>
+            <div id="guest-list" class="guest-list">
+                <!-- Se preenche via JS -->
+            </div>
+        </section>
+
+        <!-- Gifts Section -->
+        <section id="presentes">
+            <h2 class="section-title">Sugestões de Presentes</h2>
+            <p style="text-align: center; margin-bottom: 3rem;">Caso deseje nos presentear, aqui estão algumas
+                sugestões. Marque o que você levará!</p>
+
+            <div id="gift-list" class="gift-grid">
+                <!-- Se preenche via JS -->
+            </div>
+        </section>
+    </div>
+
+    <!-- Modal de Verificação de Telefone -->
+    <div id="phone-modal" class="modal">
+        <div class="modal-content">
+            <h3>Confirmar Identidade</h3>
+            <p id="modal-guest-name" style="font-weight: 600; margin-top: 10px;"></p>
+            <p style="font-size: 0.9rem; color: #666;">Por favor, digite seu número de telefone para confirmar sua
+                presença.</p>
+            <input type="tel" id="guest-phone-input" placeholder="(00) 00000-0000">
+            <button class="btn-confirm" id="btn-final-confirm">Confirmar Agora</button>
+            <button onclick="closeModal()"
+                style="margin-top: 1rem; background: none; border: none; color: #888; cursor: pointer;">Cancelar</button>
+        </div>
+    </div>
+
+    <footer>
+        <h2>Yohanna</h2>
+        <p>15.05.2026</p>
+        <p style="margin-top: 1rem; font-size: 0.8rem; opacity: 0.7;">Desenvolvido com carinho para esse momento
+            especial.</p>
+    </footer>
+
+    <script src="app.js"></script>
+</body>
+
+</html>
