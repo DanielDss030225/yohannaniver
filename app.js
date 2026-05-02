@@ -1,13 +1,13 @@
 // Configuração Firebase
 const firebaseConfig = {
-  apiKey: "AIzaSyDJy0O49LZ7vJHrX9K_hJERTuG83Oxc70A",
-  authDomain: "yohanna-niver.firebaseapp.com",
-  databaseURL: "https://yohanna-niver-default-rtdb.firebaseio.com",
-  projectId: "yohanna-niver",
-  storageBucket: "yohanna-niver.firebasestorage.app",
-  messagingSenderId: "501860169828",
-  appId: "1:501860169828:web:f4feb381601ba52d6f4771",
-  measurementId: "G-YDDEMJCP2Y"
+    apiKey: "AIzaSyDJy0O49LZ7vJHrX9K_hJERTuG83Oxc70A",
+    authDomain: "yohanna-niver.firebaseapp.com",
+    databaseURL: "https://yohanna-niver-default-rtdb.firebaseio.com",
+    projectId: "yohanna-niver",
+    storageBucket: "yohanna-niver.firebasestorage.app",
+    messagingSenderId: "501860169828",
+    appId: "1:501860169828:web:f4feb381601ba52d6f4771",
+    measurementId: "G-YDDEMJCP2Y"
 };
 
 // Inicialização
@@ -57,46 +57,46 @@ const friends = [
 ];
 
 const giftSuggestions = {
-    "💄 Beleza e Autocuidado": [
+    "Beleza e Autocuidado": [
         "Maleta de maquiagem", "Kit de maquiagem profissional", "Espelho com LED", "Escova secadora",
         "Chapinha profissional", "Babyliss", "Kit skincare", "Perfume importado", "Perfume nacional",
         "Hidratantes premium", "Kit de unhas", "Esmaltes importados", "Nécessaire personalizada",
         "Kit spa (sais, velas)", "Massagem relaxante (voucher)"
     ],
-    "💍 Joias e Acessórios": [
+    "Joias e Acessórios": [
         "Anel de debutante", "Colar com inicial", "Pulseira de prata", "Brincos delicados",
         "Relógio feminino", "Gargantilha", "Choker estilosa", "Pingente personalizado",
         "Berloques para pulseira", "Corrente dourada", "Anel com pedra", "Kit de acessórios",
         "Óculos de sol", "Bolsa pequena elegante", "Mochila fashion"
     ],
-    "📱 Tecnologia": [
+    "Tecnologia": [
         "Celular (tipo iPhone ou Samsung)", "Tablet", "Notebook", "Fone Bluetooth",
         "Headset gamer", "Caixa de som portátil", "Smartwatch", "Kindle", "Ring light",
         "Tripé para celular", "Teclado gamer", "Mouse gamer", "Capa personalizada",
         "Power bank", "Alexa / assistente virtual"
     ],
-    "👗 Moda e Estilo": [
+    "Moda e Estilo": [
         "Vestido para festa", "Tênis estiloso", "Sandália elegante", "Salto alto",
         "Jaqueta jeans", "Jaqueta de couro", "Conjunto de roupas", "Bolsa de marca",
         "Roupas de academia", "Pijama fofo", "Cropped + saia", "Blazer feminino",
         "Calça jeans premium", "Chinelo de marca", "Boné estiloso"
     ],
-    "🎨 Criativos e Personalizados": [
+    "Criativos e Personalizados": [
         "Quadro com fotos", "Álbum personalizado", "Scrapbook", "Caneca personalizada",
         "Livro de mensagens", "Caixa surpresa", "Caixa de fotos explosiva",
         "Ilustração personalizada", "Luminária com nome", "Porta-retrato digital"
     ],
-    "📚 Cultura e Hobbies": [
+    "Cultura e Hobbies": [
         "Livros (romance/fantasia)", "Box de livros", "Curso online (maquiagem, desenho)",
         "Aula de dança", "Aula de canto", "Aula de equitação", "Curso de idiomas",
         "Curso de fotografia", "Material de pintura", "Instrumento musical"
     ],
-    "🛏️ Quarto e Decoração": [
+    "Quarto e Decoração": [
         "LED para quarto", "Cortina estilosa", "Almofadas decorativas", "Tapete fofo",
         "Poltrona para quarto", "Espelho grande", "Painel de fotos", "Luminária decorativa",
         "Difusor de aromas", "Kit decoração completo"
     ],
-    "🎉 Experiências": [
+    "Experiências": [
         "Viagem", "Dia de princesa (spa completo)", "Ensaio fotográfico", "Festa surpresa",
         "Jantar especial", "Ingresso de show", "Passeio de helicóptero", "Dia em resort",
         "Curso VIP (maquiagem/moda)", "Dinheiro ou Pix (ela escolhe o que quiser 💸)"
@@ -145,7 +145,7 @@ function renderGuests() {
         const card = document.createElement('div');
         card.className = 'guest-card';
         card.id = `guest-${id}`;
-        
+
         card.innerHTML = `
             <div class="guest-info">
                 <h4>${name}</h4>
@@ -155,7 +155,7 @@ function renderGuests() {
             <button class="btn-confirm" onclick="openRSVPModal('${name}', '${phone}')" id="btn-${id}">Confirmar</button>
         `;
         guestListContainer.appendChild(card);
-        
+
         // Check DB for confirmation
         db.ref(`rsvp/${id}`).once('value').then(snapshot => {
             if (snapshot.exists()) {
@@ -220,7 +220,7 @@ function markAsConfirmed(id) {
 
 function renderGifts() {
     giftListContainer.innerHTML = '';
-    
+
     for (const [category, items] of Object.entries(giftSuggestions)) {
         const categoryHeader = document.createElement('div');
         categoryHeader.className = 'gift-category-title';
@@ -283,9 +283,9 @@ function claimGift(giftName) {
 window.onload = () => {
     renderGuests();
     renderGifts();
-    
+
     // Welcome logic
-    if(btnStartMusic) {
+    if (btnStartMusic) {
         btnStartMusic.onclick = () => {
             welcomeModal.style.display = 'none';
             // Start audio when user clicks

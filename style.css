@@ -24,13 +24,19 @@ body {
     font-family: var(--font-sans);
     line-height: 1.6;
     overflow-x: hidden;
-    /* Efeito de pulsação suave no fundo */
-    animation: bgPulse 3s infinite alternate ease-in-out;
+    /* Efeito de pulsação mais perceptível no fundo */
+    -webkit-animation: bgPulse 2s infinite alternate ease-in-out;
+    animation: bgPulse 2s infinite alternate ease-in-out;
+}
+
+@-webkit-keyframes bgPulse {
+    0% { background-color: var(--off-white); }
+    100% { background-color: #cdd9c4; } 
 }
 
 @keyframes bgPulse {
     0% { background-color: var(--off-white); }
-    100% { background-color: #E6EDDF; } /* Tom muito sutil de Verde Oliva Claro */
+    100% { background-color: #cdd9c4; } 
 }
 
 h1,
