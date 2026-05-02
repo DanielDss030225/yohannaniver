@@ -103,7 +103,6 @@ const giftSuggestions = {
     ]
 };
 
-let currentCategory = 'familia';
 let selectedGuest = null;
 
 // UI Elements
@@ -122,16 +121,6 @@ const bgMusic = document.getElementById('bg-music');
 
 // --- Functions ---
 
-function switchCategory(cat) {
-    currentCategory = cat;
-    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-    event.target.classList.add('active');
-    
-    if (searchInput) searchInput.value = ''; // Limpa a pesquisa ao trocar de aba
-    
-    renderGuests();
-}
-
 function generateId(str) {
     // Safe base64 for UTF-8
     return btoa(unescape(encodeURIComponent(str))).replace(/[/+=]/g, '');
@@ -139,7 +128,9 @@ function generateId(str) {
 
 function renderGuests() {
     guestListContainer.innerHTML = '';
-    const list = currentCategory === 'familia' ? family : friends;
+
+    // Unida as listas de família e amigos para pesquisa unificada
+    const list = [...family, ...friends];
 
     list.forEach(item => {
         const name = typeof item === 'string' ? item : item.name;
