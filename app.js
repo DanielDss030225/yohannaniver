@@ -398,24 +398,49 @@ if (btnAdmin) {
     }
 }
 
-window.addNewGuest = function () {
+window.editingGuestId = null;
+
+window.saveGuest = function() {
     const name = document.getElementById('admin-new-name').value.trim();
     const phone = document.getElementById('admin-new-phone').value.trim();
     const cat = document.getElementById('admin-new-cat').value;
-
-    if (!name) return alert("Por favor, digite o nome completo.");
-
-    const id = generateId(name);
-    db.ref(`guests/${id}`).set({
+    
+    if(!name) return alert("Por favor, digite o nome completo.");
+    
+    // Se estiver editando, mantemos o ID para não perder histórico de RSVPs vinculados ao ID original
+    const id = window.editingGuestId || generateId(name);
+    
+    db.ref(`guests/${id}`).update({
         name, phone, category: cat
     }).then(() => {
-        alert(`${name} adicionado(a) com sucesso ao sistema!`);
-        document.getElementById('admin-new-name').value = '';
-        document.getElementById('admin-new-phone').value = '';
+        alert(window.editingGuestId ? `${name} modificado(a) com sucesso!` : `${name} adicionado(a) com sucesso!`);
+        window.cancelEdit();
     });
 };
 
-window.removeGuest = function (id) {
+window.editGuest = function(id) {
+    const guest = window.currentGuestsFromDB.find(g => g.id === id);
+    if(guest) {
+        document.getElementById('admin-new-name').value = guest.name;
+        document.getElementById('admin-new-phone').value = guest.phone || '';
+        document.getElementById('admin-new-cat').value = guest.category;
+        
+        document.getElementById('btn-admin-save').innerText = "Salvar Alterações";
+        document.getElementById('btn-admin-cancel').style.display = 'block';
+        window.editingGuestId = id;
+    }
+};
+
+window.cancelEdit = function() {
+    document.getElementById('admin-new-name').value = '';
+    document.getElementById('admin-new-phone').value = '';
+    document.getElementById('admin-new-cat').value = 'Família';
+    document.getElementById('btn-admin-save').innerText = "Salvar na Lista";
+    document.getElementById('btn-admin-cancel').style.display = 'none';
+    window.editingGuestId = null;
+};
+
+window.removeGuest = function(id) {
     if (confirm("ATENÇÃO: Deseja realmente excluir este convidado e desmarcar sua presença (caso exista)?")) {
         // Exclui do cadastro e do RSVP
         db.ref(`guests/${id}`).remove();
@@ -444,11 +469,14 @@ window.renderAdminList = function(searchTerm = '') {
         const div = document.createElement('div');
         div.style = "display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #eee; padding: 0.8rem 0;";
         div.innerHTML = `
-            <div style="line-height:1.2;">
+            <div style="line-height:1.2; max-width: 60%">
                 <strong style="color:var(--text-dark);">${g.name}</strong><br>
-                <span style="font-size:0.75rem; color:#888;">Categoria: ${g.category} &nbsp;|&nbsp; Cel: ${g.phone || '(Não Cadastrado)'}</span>
+                <span style="font-size:0.75rem; color:#888;">${g.category} &nbsp;|&nbsp; Cel: ${g.phone || 'Sem nº'}</span>
             </div>
-            <button onclick="removeGuest('${g.id}')" style="color: #dc3545; border: 1px solid #dc3545; background: transparent; border-radius: 4px; padding: 0.3rem 0.6rem; cursor: pointer; font-size: 0.75rem; font-weight: bold;">✕ Excluir</button>
+            <div style="display: flex; gap: 5px;">
+                <button onclick="editGuest('${g.id}')" style="color: var(--olive-primary); border: 1px solid var(--olive-primary); background: transparent; border-radius: 4px; padding: 0.3rem 0.6rem; cursor: pointer; font-size: 0.70rem; font-weight: bold;">✎ Editar</button>
+                <button onclick="removeGuest('${g.id}')" style="color: #dc3545; border: 1px solid #dc3545; background: transparent; border-radius: 4px; padding: 0.3rem 0.6rem; cursor: pointer; font-size: 0.70rem; font-weight: bold;">✕ Excluir</button>
+            </div>
         `;
         adminList.appendChild(div);
     });
