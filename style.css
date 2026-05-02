@@ -299,12 +299,16 @@ h3 {
 
 .phone-badge {
     background: #e9ecef;
-    padding: 0.2rem 0.6rem;
+    padding: 0.15rem 0.6rem;
     border-radius: 12px;
     font-size: 0.75rem;
     color: #666;
-    margin-top: 5px;
-    display: inline-block;
+    margin-top: 0;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    height: fit-content;
+    line-height: 1;
 }
 
 .btn-confirm {

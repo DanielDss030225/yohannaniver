@@ -244,8 +244,8 @@ function renderGuestsList(list) {
         card.innerHTML = `
             <div class="guest-info" style="display: flex; flex-direction: column; gap: 6px; align-items: flex-start;">
                 <h4 style="margin: 0; line-height: 1;">${item.name}</h4>
-                <div style="display: flex; gap: 5px; flex-wrap: wrap;">
-                    <span style="${badgeColor} padding: 0.15rem 0.5rem; border-radius: 12px; font-size: 0.65rem; font-weight: 600; text-transform: uppercase;">${item.category}</span>
+                <div style="display: flex; gap: 5px; flex-wrap: wrap; align-items: center;">
+                    <span style="${badgeColor} display: inline-flex; align-items: center; justify-content: center; height: fit-content; padding: 0.15rem 0.5rem; border-radius: 12px; font-size: 0.65rem; font-weight: 600; text-transform: uppercase; line-height: 1;">${item.category}</span>
                     ${displayPhone && displayPhone !== '********' && displayPhone !== '*******' ? `<span class="phone-badge" id="display-phone-${id}">${displayPhone}</span>` : ''}
                 </div>
                 <div id="status-${id}" style="font-size: 0.8rem; color: #28a745; font-weight: 600; margin-top: 2px; display: none;">✓ Confirmado</div>
