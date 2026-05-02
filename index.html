@@ -115,6 +115,21 @@
         </div>
     </div>
 
+    <!-- Global Custom Modal -->
+    <div id="custom-alert-modal" class="modal" style="z-index: 10000; align-items:flex-start; padding-top:15vh;">
+        <div class="modal-content" style="max-width: 400px; text-align: center; border-top: 5px solid var(--olive-primary); border-radius: 12px; box-shadow: 0 10px 25px rgba(0,0,0,0.2);">
+            <h3 id="custom-alert-title" style="color: var(--olive-dark); margin-bottom: 0.8rem; font-size: 1.4rem;">Aviso</h3>
+            <p id="custom-alert-message" style="margin-bottom: 1.5rem; font-family: var(--font-sans); color: #555; line-height: 1.4;"></p>
+            
+            <input type="text" id="custom-alert-input" style="display:none; width: 100%; padding: 0.8rem; margin-bottom: 1.2rem; border: 1px solid #ddd; border-radius: 4px; font-family: var(--font-sans);" autocomplete="off">
+            
+            <div style="display: flex; gap: 10px; justify-content: center;">
+                <button id="custom-alert-btn-cancel" style="display: none; background: #fdfdfd; border: 1px solid #ccc; color: #666; border-radius: 30px; cursor: pointer; padding: 0.7rem 1.5rem; font-weight: 600;">Cancelar</button>
+                <button id="custom-alert-btn-ok" class="btn-confirm" style="padding: 0.7rem 1.5rem; border-radius: 30px; font-weight: bold; width: 100%; border:none;">OK</button>
+            </div>
+        </div>
+    </div>
+
     <!-- Admin Modal -->
     <div id="admin-modal" class="modal">
         <div class="modal-content" style="max-width: 500px; max-height: 85vh; overflow-y: auto;">

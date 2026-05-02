@@ -315,8 +315,8 @@ function renderGifts() {
     }
 }
 
-function claimGift(giftName) {
-    const name = prompt("Qual o seu nome para marcar este presente?");
+window.claimGift = async function(giftName) {
+    const name = await showCustomModal({ type: 'prompt', title: 'Reservar Presente', message: `Qual o seu nome para marcar este presente?<br><strong style="color:var(--olive-primary)">${giftName}</strong>`, placeholder: 'Seu Nome Completo' });
     if (!name) return;
 
     const giftId = generateId(giftName);
@@ -326,11 +326,11 @@ function claimGift(giftName) {
         } else {
             return; // Abort if already taken
         }
-    }, (error, committed, snapshot) => {
+    }, async (error, committed, snapshot) => {
         if (committed) {
-            alert(`Obrigado, ${name}! O presente foi marcado para você.`);
+            await showCustomModal({ title: 'Reserva Realizada!', message: `Obrigado, ${name}! O presente foi marcado para você.` });
         } else {
-            alert("Sinto muito, este presente acabou de ser marcado por outra pessoa.");
+            await showCustomModal({ title: 'Poxa...', message: 'Sinto muito, este presente acabou de ser marcado por outra pessoa.' });
         }
     });
 }
@@ -387,33 +387,33 @@ if (adminSearch) {
 }
 
 if (btnAdmin) {
-    btnAdmin.onclick = () => {
-        const pwd = prompt("SISTEMA VIP:\nDigite a senha de acesso administrativo:");
+    btnAdmin.onclick = async () => {
+        const pwd = await showCustomModal({ type: 'prompt', title: 'SISTEMA VIP', message: 'Digite a senha de acesso administrativo:', placeholder: 'Senha VIP' });
         if (pwd === "132011") {
             adminModal.style.display = 'flex';
             renderAdminList();
         } else if (pwd !== null) {
-            alert("Senha Incorreta. Acesso Negado.");
+            await showCustomModal({ title: 'Erro', message: 'Senha Incorreta. Acesso Negado.' });
         }
     }
 }
 
 window.editingGuestId = null;
 
-window.saveGuest = function() {
+window.saveGuest = async function() {
     const name = document.getElementById('admin-new-name').value.trim();
     const phone = document.getElementById('admin-new-phone').value.trim();
     const cat = document.getElementById('admin-new-cat').value;
     
-    if(!name) return alert("Por favor, digite o nome completo.");
+    if(!name) return await showCustomModal({ title: 'Atenção', message: 'Por favor, digite o nome completo.' });
     
     // Se estiver editando, mantemos o ID para não perder histórico de RSVPs vinculados ao ID original
     const id = window.editingGuestId || generateId(name);
     
     db.ref(`guests/${id}`).update({
         name, phone, category: cat
-    }).then(() => {
-        alert(window.editingGuestId ? `${name} modificado(a) com sucesso!` : `${name} adicionado(a) com sucesso!`);
+    }).then(async () => {
+        await showCustomModal({ title: 'Sucesso!', message: window.editingGuestId ? `${name} modificado(a) com sucesso!` : `${name} adicionado(a) com sucesso!` });
         window.cancelEdit();
     });
 };
@@ -440,8 +440,9 @@ window.cancelEdit = function() {
     window.editingGuestId = null;
 };
 
-window.removeGuest = function(id) {
-    if (confirm("ATENÇÃO: Deseja realmente excluir este convidado e desmarcar sua presença (caso exista)?")) {
+window.removeGuest = async function(id) {
+    const confirmed = await showCustomModal({ type: 'confirm', title: 'ATENÇÃO', message: `Deseja realmente excluir este convidado e desmarcar sua presença (caso exista)?<br><br>Esta ação não pode ser desfeita.`});
+    if (confirmed) {
         // Exclui do cadastro e do RSVP
         db.ref(`guests/${id}`).remove();
         db.ref(`rsvp/${id}`).remove();
