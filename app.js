@@ -19,7 +19,8 @@ const family = [
     "Tia Cátia", "Tio Toninho", "Primo Carlos e Namorada", "Prima Karen", "Tia Fátima",
     "Prima Sirlene", "Primo Tiago", "Irmão Vinícius", "Cunhada Carla", "Irmão Lekin",
     "Irmão Adriano", "Irmã Taís", "Irmã Jéssica", "Cunhado Daniel", "Mãe Maria",
-    "Pai Fernando", "Tio Denis", "Tia Daniela", "Vanderli (madrasta)", "Jaquiline Prima e Júnior"
+    "Pai Fernando", "Tio Denis", "Tia Daniela", "Vanderli (madrasta)", "Jaquiline Prima e Júnior",
+    { name: "Beto", phone: "31985536906" }
 ];
 
 const friends = [
@@ -38,7 +39,6 @@ const friends = [
     { name: "Letícia", phone: "319972240440" },
     { name: "Ester", phone: "31986773451" },
     { name: "Aila", phone: "319972360203" },
-    { name: "Beto", phone: "31985536906" },
     { name: "Bernardo", phone: "31999423445" },
     { name: "Tiago", phone: "31987573236" },
     { name: "Adriano", phone: "3194619958" },
