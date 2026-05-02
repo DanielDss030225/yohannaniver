@@ -24,6 +24,13 @@ body {
     font-family: var(--font-sans);
     line-height: 1.6;
     overflow-x: hidden;
+    /* Efeito de pulsação suave no fundo */
+    animation: bgPulse 3s infinite alternate ease-in-out;
+}
+
+@keyframes bgPulse {
+    0% { background-color: var(--off-white); }
+    100% { background-color: #E6EDDF; } /* Tom muito sutil de Verde Oliva Claro */
 }
 
 h1,
