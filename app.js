@@ -381,14 +381,39 @@ function renderGifts() {
 
             // Watch for changes in Realtime
             db.ref(`gifts/${giftId}`).on('value', snapshot => {
+                const card = document.getElementById(`gift-${giftId}`);
+                const statusEl = document.getElementById(`gift-status-${giftId}`);
+                const btn = document.getElementById(`btn-gift-${giftId}`);
+
                 if (snapshot.exists()) {
                     const data = snapshot.val();
                     card.classList.add('taken');
-                    document.getElementById(`gift-status-${giftId}`).innerHTML = `<strong>⚠️ Já escolhido por ${data.claimedBy || 'alguém'}</strong>`;
-                    const btn = document.getElementById(`btn-gift-${giftId}`);
+                    statusEl.innerHTML = `<strong>⚠️ Já escolhido por ${data.claimedBy || 'alguém'}</strong>`;
+
+                    // Verifica se foi este navegador que marcou (salvo no localStorage)
+                    const myClaimedGifts = JSON.parse(localStorage.getItem('myClaimedGifts') || '{}');
+                    const isOwner = myClaimedGifts[giftId];
+
                     if (btn) {
-                        btn.innerText = "Indisponível";
-                        btn.disabled = true;
+                        if (isOwner) {
+                            btn.innerText = "Desmarcar ✕";
+                            btn.disabled = false;
+                            btn.style.background = '#dc3545';
+                            btn.onclick = () => window.unclaimGift(gift, giftId);
+                        } else {
+                            btn.innerText = "Indisponível";
+                            btn.disabled = true;
+                        }
+                    }
+                } else {
+                    // Presente liberado — reset visual
+                    card.classList.remove('taken');
+                    if (statusEl) statusEl.innerHTML = 'Disponível';
+                    if (btn) {
+                        btn.innerText = "Levar este";
+                        btn.disabled = false;
+                        btn.style.background = '';
+                        btn.onclick = () => window.claimGift(gift);
                     }
                 }
             }, err => {
@@ -411,12 +436,31 @@ window.claimGift = async function (giftName) {
         }
     }, async (error, committed, snapshot) => {
         if (committed) {
-            await showCustomModal({ title: 'Reserva Realizada!', message: `Obrigado, ${name}! O presente foi marcado para você.` });
+            // Salva localmente quem marcou para permitir desmarcar
+            const myClaimedGifts = JSON.parse(localStorage.getItem('myClaimedGifts') || '{}');
+            myClaimedGifts[giftId] = name;
+            localStorage.setItem('myClaimedGifts', JSON.stringify(myClaimedGifts));
+            await showCustomModal({ title: 'Reserva Realizada! 🎁', message: `Obrigado, ${name}! O presente foi marcado para você.<br><br><small>Caso mude de ideia, clique em <strong>"Desmarcar"</strong> no card do presente.</small>` });
         } else {
             await showCustomModal({ title: 'Poxa...', message: 'Sinto muito, este presente acabou de ser marcado por outra pessoa.' });
         }
     });
-}
+};
+
+window.unclaimGift = async function(giftName, giftId) {
+    const confirmed = await showCustomModal({ type: 'confirm', title: 'Desmarcar Presente', message: `Tem certeza que deseja liberar este presente?<br><strong style="color:var(--olive-primary)">${giftName}</strong><br><br>Outra pessoa poderá marcá-lo.` });
+    if (!confirmed) return;
+
+    db.ref(`gifts/${giftId}`).remove().then(() => {
+        // Remove do localStorage
+        const myClaimedGifts = JSON.parse(localStorage.getItem('myClaimedGifts') || '{}');
+        delete myClaimedGifts[giftId];
+        localStorage.setItem('myClaimedGifts', JSON.stringify(myClaimedGifts));
+    }).catch(async err => {
+        console.error(err);
+        await showCustomModal({ title: 'Erro', message: 'Não foi possível desmarcar o presente. Tente novamente.' });
+    });
+};
 
 // Init
 window.onload = () => {
