@@ -113,6 +113,7 @@ const phoneModal = document.getElementById('phone-modal');
 const modalGuestName = document.getElementById('modal-guest-name');
 const phoneInput = document.getElementById('guest-phone-input');
 const btnFinalConfirm = document.getElementById('btn-final-confirm');
+const searchInput = document.getElementById('pesquisarNome');
 
 // Welcome Modal & Audio Elements
 const welcomeModal = document.getElementById('welcome-modal');
@@ -125,6 +126,9 @@ function switchCategory(cat) {
     currentCategory = cat;
     document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
     event.target.classList.add('active');
+    
+    if (searchInput) searchInput.value = ''; // Limpa a pesquisa ao trocar de aba
+    
     renderGuests();
 }
 
@@ -285,7 +289,7 @@ window.onload = () => {
     renderGifts();
 
     // Welcome logic
-    if (btnStartMusic) {
+    if(btnStartMusic) {
         btnStartMusic.onclick = () => {
             welcomeModal.style.display = 'none';
             // Start audio when user clicks
@@ -293,5 +297,27 @@ window.onload = () => {
                 console.warn("Navegador impediu a reprodução automática do áudio", err);
             });
         };
+    }
+    
+    // Configura a Barra de Pesquisa
+    if (searchInput) {
+        searchInput.addEventListener('input', (e) => {
+            const term = e.target.value.toLowerCase();
+            const cards = document.querySelectorAll('.guest-card');
+            
+            cards.forEach(card => {
+                const nameTarget = card.querySelector('h4');
+                const phoneTarget = card.querySelector('.phone-badge');
+                
+                const name = nameTarget ? nameTarget.innerText.toLowerCase() : '';
+                const phone = phoneTarget ? phoneTarget.innerText.toLowerCase() : '';
+                
+                if (name.includes(term) || phone.includes(term)) {
+                    card.style.display = 'flex';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        });
     }
 };
