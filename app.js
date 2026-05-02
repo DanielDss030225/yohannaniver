@@ -378,6 +378,13 @@ window.onload = () => {
 // --- ÁREA ADMINISTRATIVA ---
 const btnAdmin = document.getElementById('btn-admin');
 const adminModal = document.getElementById('admin-modal');
+const adminSearch = document.getElementById('admin-search');
+
+if (adminSearch) {
+    adminSearch.addEventListener('input', (e) => {
+        if(window.renderAdminList) window.renderAdminList(e.target.value);
+    });
+}
 
 if (btnAdmin) {
     btnAdmin.onclick = () => {
@@ -416,16 +423,24 @@ window.removeGuest = function (id) {
     }
 };
 
-window.renderAdminList = function () {
+window.renderAdminList = function(searchTerm = '') {
     const adminList = document.getElementById('admin-guest-list');
+    if(!adminList) return;
     adminList.innerHTML = '';
-
-    if (!window.currentGuestsFromDB) return;
-
+    
+    if(!window.currentGuestsFromDB) return;
+    
+    const term = searchTerm.toLowerCase();
+    
     // Lista em ordem alfabética
-    const sorted = [...window.currentGuestsFromDB].sort((a, b) => a.name.localeCompare(b.name));
-
-    sorted.forEach(g => {
+    const sorted = [...window.currentGuestsFromDB].sort((a,b) => a.name.localeCompare(b.name));
+    
+    const filtered = sorted.filter(g => 
+        g.name.toLowerCase().includes(term) || 
+        (g.phone && g.phone.includes(term))
+    );
+    
+    filtered.forEach(g => {
         const div = document.createElement('div');
         div.style = "display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #eee; padding: 0.8rem 0;";
         div.innerHTML = `

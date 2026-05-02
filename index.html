@@ -131,8 +131,9 @@
                 <button class="btn-confirm" onclick="addNewGuest()" style="width: 100%; padding: 1rem; border-radius: 30px;">Adicionar à Lista</button>
             </div>
             
-            <h4 style="margin-bottom: 1rem; font-family: var(--font-sans); color: var(--olive-dark);">Cadastrados no Sistema</h4>
-            <div id="admin-guest-list" style="text-align: left; max-height: 300px; overflow-y: auto; font-family: var(--font-sans); border: 1px solid #eee; border-radius: 8px; padding: 0.5rem 1rem;">
+            <h4 style="margin-bottom: 0.5rem; font-family: var(--font-sans); color: var(--olive-dark);">Cadastrados no Sistema</h4>
+            <input type="text" id="admin-search" placeholder="Pesquisar para excluir..." style="margin-bottom: 1rem; width: 100%; padding: 0.6rem; border: 1px solid #ddd; border-radius: 4px; font-family: var(--font-sans);">
+            <div id="admin-guest-list" style="text-align: left; max-height: 350px; overflow-y: auto; font-family: var(--font-sans); border: 1px solid #eee; border-radius: 8px; padding: 0.5rem 1rem;">
                 <!-- Preenchido via JS -->
             </div>
 
