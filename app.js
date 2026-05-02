@@ -126,6 +126,61 @@ const giftSuggestions = {
 
 let selectedGuest = null;
 
+// --- CUSTOM MODAL UTILS ---
+const customAlertModal = document.getElementById('custom-alert-modal');
+const customAlertTitle = document.getElementById('custom-alert-title');
+const customAlertMessage = document.getElementById('custom-alert-message');
+const customAlertInput = document.getElementById('custom-alert-input');
+const customAlertBtnOk = document.getElementById('custom-alert-btn-ok');
+const customAlertBtnCancel = document.getElementById('custom-alert-btn-cancel');
+
+window.showCustomModal = function({ type = 'alert', title = 'Aviso', message = '', placeholder = '' }) {
+    return new Promise((resolve) => {
+        if(!customAlertModal) {
+            // Em caso de falha no carregamento HTML
+            if(type === 'prompt') resolve(prompt(message));
+            else if(type === 'confirm') resolve(confirm(message));
+            else { alert(message); resolve(true); }
+            return;
+        }
+
+        customAlertTitle.innerText = title;
+        customAlertMessage.innerHTML = message;
+        
+        customAlertInput.style.display = type === 'prompt' ? 'block' : 'none';
+        customAlertInput.placeholder = placeholder;
+        customAlertInput.value = '';
+        if(type === 'prompt') customAlertInput.type = placeholder.toLowerCase().includes('senha') ? 'password' : 'text';
+        
+        const isAlert = type === 'alert';
+        customAlertBtnCancel.style.display = isAlert ? 'none' : 'block';
+        customAlertBtnOk.style.width = isAlert ? '100%' : '50%';
+        customAlertBtnCancel.style.width = isAlert ? '100%' : '50%';
+        
+        customAlertModal.style.display = 'flex';
+        if(type === 'prompt') setTimeout(() => customAlertInput.focus(), 100);
+        
+        const cleanup = () => {
+            customAlertModal.style.display = 'none';
+            customAlertBtnOk.onclick = null;
+            customAlertBtnCancel.onclick = null;
+        };
+        
+        customAlertBtnOk.onclick = () => {
+            cleanup();
+            if(type === 'prompt') resolve(customAlertInput.value);
+            else if(type === 'confirm') resolve(true);
+            else resolve(true);
+        };
+        
+        customAlertBtnCancel.onclick = () => {
+            cleanup();
+            if(type === 'prompt') resolve(null);
+            else resolve(false);
+        };
+    });
+};
+
 // UI Elements
 const guestListContainer = document.getElementById('guest-list');
 const giftListContainer = document.getElementById('gift-list');
