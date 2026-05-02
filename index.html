@@ -115,14 +115,41 @@
         </div>
     </div>
 
+    <!-- Admin Modal -->
+    <div id="admin-modal" class="modal">
+        <div class="modal-content" style="max-width: 500px; max-height: 85vh; overflow-y: auto;">
+            <h3 style="color: var(--olive-primary); border-bottom: 2px solid var(--gold); padding-bottom: 0.5rem;">Painel Administrativo</h3>
+            
+            <div style="margin: 1.5rem 0; padding: 1.5rem; background: #fdfdfd; border: 1px solid #eee; border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.05);">
+                <h4 style="margin-bottom: 1rem; font-family: var(--font-sans); color: var(--olive-dark);">Adicionar Convidado</h4>
+                <input type="text" id="admin-new-name" placeholder="Nome Completo" style="margin-bottom: 0.8rem; width: 100%; padding: 0.8rem; border: 1px solid #ddd; border-radius: 4px; font-family: var(--font-sans);">
+                <input type="tel" id="admin-new-phone" placeholder="Telefone (Opcional, apenas números)" style="margin-bottom: 0.8rem; width: 100%; padding: 0.8rem; border: 1px solid #ddd; border-radius: 4px; font-family: var(--font-sans);">
+                <select id="admin-new-cat" style="width: 100%; padding: 0.8rem; margin-bottom: 1rem; border: 1px solid #ddd; border-radius: 4px; font-family: var(--font-sans);">
+                    <option value="Família">Família / Parente</option>
+                    <option value="Amigo">Amigo(a)</option>
+                </select>
+                <button class="btn-confirm" onclick="addNewGuest()" style="width: 100%; padding: 1rem; border-radius: 30px;">Adicionar à Lista</button>
+            </div>
+            
+            <h4 style="margin-bottom: 1rem; font-family: var(--font-sans); color: var(--olive-dark);">Cadastrados no Sistema</h4>
+            <div id="admin-guest-list" style="text-align: left; max-height: 300px; overflow-y: auto; font-family: var(--font-sans); border: 1px solid #eee; border-radius: 8px; padding: 0.5rem 1rem;">
+                <!-- Preenchido via JS -->
+            </div>
+
+            <button onclick="document.getElementById('admin-modal').style.display='none'" style="margin-top: 1.5rem; background: transparent; border: 1px solid #ccc; color: #666; border-radius: 30px; cursor: pointer; padding: 0.8rem 2rem; font-weight: 600;">Sair do Painel</button>
+        </div>
+    </div>
+
     <!-- Audio Element -->
     <audio id="bg-music" src="musicadefundo.mp3" loop></audio>
 
     <footer>
         <h2>Yohanna</h2>
         <p>15.05.2026</p>
-        <p style="margin-top: 1rem; font-size: 0.8rem; opacity: 0.7;">Desenvolvido com carinho para esse momento
-            especial.</p>
+        <p style="margin-top: 1rem; font-size: 0.8rem; opacity: 0.7;">Desenvolvido com carinho para esse momento especial.</p>
+        <div style="margin-top: 2rem;">
+            <button id="btn-admin" style="background: none; border: none; color: rgba(255,255,255,0.3); font-size: 0.75rem; cursor: pointer;">Área Administrativa</button>
+        </div>
     </footer>
 
     <script src="app.js"></script>

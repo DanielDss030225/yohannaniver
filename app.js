@@ -14,8 +14,11 @@ const firebaseConfig = {
 firebase.initializeApp(firebaseConfig);
 const db = firebase.database();
 
-// Listas de Convidados
-const family = [
+// --- DATABASE E MIGRAÇÃO DE CONVIDADOS ---
+window.currentGuestsFromDB = [];
+
+// Mantemos a lista original apenas como backup temporário para a migração inicial
+const originalFamily = [
     "Tia Cátia", "Tio Toninho", "Primo Carlos e Namorada", "Prima Karen", "Tia Fátima",
     "Prima Sirlene", "Primo Tiago", "Irmão Vinícius", "Cunhada Carla", "Irmão Lekin",
     "Irmão Adriano", "Irmã Taís", "Irmã Jéssica", "Cunhado Daniel", "Mãe Maria",
@@ -23,7 +26,7 @@ const family = [
     { name: "Beto", phone: "31985536906" }
 ];
 
-const friends = [
+const originalFriends = [
     { name: "Hilari", phone: "31998653038" },
     { name: "Yasmin", phone: "31991711451" },
     { name: "Gabriela", phone: "31973301252" },
@@ -56,12 +59,30 @@ const friends = [
     { name: "Isabella", phone: "*******" }
 ];
 
+function migrateInitialDataToFirebase() {
+    const listFamily = originalFamily.map(item => ({
+        name: typeof item === 'string' ? item : item.name,
+        phone: typeof item === 'string' ? '' : item.phone || '',
+        category: 'Família'
+    }));
+    const listFriends = originalFriends.map(item => ({
+        name: typeof item === 'string' ? item : item.name,
+        phone: typeof item === 'string' ? '' : item.phone || '',
+        category: 'Amigo'
+    }));
+
+    const all = [...listFamily, ...listFriends];
+    all.forEach(g => {
+        const id = generateId(g.name);
+        db.ref(`guests/${id}`).set(g).catch(err => console.log("Permissão Admin:", err));
+    });
+}
+
 const giftSuggestions = {
     "Beleza e Autocuidado": [
         "Maleta de maquiagem", "Kit de maquiagem profissional", "Espelho com LED", "Escova secadora",
         "Chapinha profissional", "Babyliss", "Kit skincare", "Perfume importado", "Perfume nacional",
-        "Hidratantes premium", "Kit de unhas", "Esmaltes importados", "Nécessaire personalizada",
-        "Kit spa (sais, velas)", "Massagem relaxante (voucher)"
+        "Hidratantes premium", "Kit de unhas", "Esmaltes importados", "Nécessaire personalizada", "Massagem relaxante (voucher)"
     ],
     "Joias e Acessórios": [
         "Anel de debutante", "Colar com inicial", "Pulseira de prata", "Brincos delicados",
@@ -126,62 +147,71 @@ function generateId(str) {
     return btoa(unescape(encodeURIComponent(str))).replace(/[/+=]/g, '');
 }
 
-function renderGuests() {
+function loadGuestsFromFirebase() {
+    const loader = document.getElementById('loading-guests');
+    if (loader) loader.style.display = 'block';
+
+    db.ref('guests').on('value', snapshot => {
+        if (loader) loader.style.display = 'none';
+        if (snapshot.exists()) {
+            const data = snapshot.val();
+            window.currentGuestsFromDB = Object.keys(data).map(key => ({ id: key, ...data[key] }));
+            renderGuestsList(window.currentGuestsFromDB);
+
+            // Atualiza a lista admin se o modal estiver aberto
+            if (document.getElementById('admin-modal') && document.getElementById('admin-modal').style.display === 'flex') {
+                renderAdminList();
+            }
+        } else {
+            // Primeiro acesso: Popula o banco com arrays locais salvos
+            migrateInitialDataToFirebase();
+        }
+    });
+}
+
+function renderGuestsList(list) {
     guestListContainer.innerHTML = '';
 
-    // Unifica família e amigos mapeando a categoria de origem
-    const listFamily = family.map(item => ({ 
-        name: typeof item === 'string' ? item : item.name, 
-        phone: typeof item === 'string' ? '' : item.phone || '', 
-        category: 'Família'
-    }));
-    
-    const listFriends = friends.map(item => ({
-        name: typeof item === 'string' ? item : item.name,
-        phone: typeof item === 'string' ? '' : item.phone || '',
-        category: 'Amigo'
-    }));
-
-    const list = [...listFamily, ...listFriends];
-
     list.forEach(item => {
-        const id = generateId(item.name);
-        
+        const id = item.id || generateId(item.name);
+
         // Define as cores das badges
-        const badgeColor = item.category === 'Família' 
+        const badgeColor = item.category === 'Família'
             ? 'background: #C5A059; color: #FFFFFF;' // Gold color
             : 'background: var(--olive-light); color: var(--text-dark);';
 
         const card = document.createElement('div');
         card.className = 'guest-card';
         card.id = `guest-${id}`;
-        
+
+        let displayPhone = item.phone || '';
+
         card.innerHTML = `
             <div class="guest-info" style="display: flex; flex-direction: column; gap: 6px; align-items: flex-start;">
                 <h4 style="margin: 0; line-height: 1;">${item.name}</h4>
                 <div style="display: flex; gap: 5px; flex-wrap: wrap;">
                     <span style="${badgeColor} padding: 0.15rem 0.5rem; border-radius: 12px; font-size: 0.65rem; font-weight: 600; text-transform: uppercase;">${item.category}</span>
-                    ${item.phone && item.phone !== '********' && item.phone !== '*******' ? `<span class="phone-badge">${item.phone}</span>` : ''}
+                    ${displayPhone && displayPhone !== '********' && displayPhone !== '*******' ? `<span class="phone-badge" id="display-phone-${id}">${displayPhone}</span>` : ''}
                 </div>
                 <div id="status-${id}" style="font-size: 0.8rem; color: #28a745; font-weight: 600; margin-top: 2px; display: none;">✓ Confirmado</div>
             </div>
-            <button class="btn-confirm" onclick="openRSVPModal('${item.name}', '${item.phone}')" id="btn-${id}">Confirmar</button>
+            <button class="btn-confirm" onclick="openRSVPModal('${item.name.replace(/'/g, "\\'")}', '${displayPhone}', '${id}')" id="btn-${id}">Confirmar</button>
         `;
         guestListContainer.appendChild(card);
 
         // Check DB for confirmation
         db.ref(`rsvp/${id}`).once('value').then(snapshot => {
             if (snapshot.exists()) {
-                markAsConfirmed(id);
+                markAsConfirmed(id, snapshot.val().phoneUsed);
             }
         }).catch(err => {
-            console.warn(`Erro ao carregar status para ${name}: Certifique-se de que as Regras do Firebase estão como 'public'.`);
+            console.warn(`Erro ao carregar status do convite. FireBase Regras ok?`);
         });
     });
 }
 
-function openRSVPModal(name, expectedPhone) {
-    selectedGuest = { name, expectedPhone, id: generateId(name) };
+function openRSVPModal(name, expectedPhone, id) {
+    selectedGuest = { name, expectedPhone, id };
     modalGuestName.innerText = name;
     phoneModal.style.display = 'flex';
     phoneInput.value = '';
@@ -194,22 +224,25 @@ function closeModal() {
 
 btnFinalConfirm.onclick = () => {
     const input = phoneInput.value.trim().replace(/\D/g, '');
-    if (!input) return alert("Por favor, digite seu telefone.");
+    if (!input) return alert("Por favor, digite seu telefone válido.");
 
     // Se for amigo e tiver telefone na lista, valida. Se for família, apenas salva o número digitado.
     if (selectedGuest.expectedPhone && selectedGuest.expectedPhone !== '********' && selectedGuest.expectedPhone !== '*******') {
         const cleanExpected = selectedGuest.expectedPhone.replace(/\D/g, '');
         if (input !== cleanExpected) {
-            return alert("Número de telefone não confere com o da lista.");
+            return alert("Número de telefone não confere com o registrado na lista.");
         }
     }
 
-    // Salva no Firebase
+    // Registra Confirmação no RSVP e atualiza o Telefone Base nos Convidados em Tempo Real
     db.ref(`rsvp/${selectedGuest.id}`).set({
         confirmedAt: firebase.database.ServerValue.TIMESTAMP,
         phoneUsed: input
     }).then(() => {
-        markAsConfirmed(selectedGuest.id);
+        // Altera permanentemente o telefone como base principal
+        db.ref(`guests/${selectedGuest.id}/phone`).set(input);
+
+        markAsConfirmed(selectedGuest.id, input);
         closeModal();
         alert("Presença confirmada com sucesso! Mal podemos esperar para te ver!");
     }).catch(err => {
@@ -218,15 +251,25 @@ btnFinalConfirm.onclick = () => {
     });
 };
 
-function markAsConfirmed(id) {
+function markAsConfirmed(id, phoneUsed) {
     const btn = document.getElementById(`btn-${id}`);
     const status = document.getElementById(`status-${id}`);
+    const phoneBadge = document.getElementById(`display-phone-${id}`);
+
     if (btn) {
         btn.innerText = "Confirmado";
         btn.classList.add("confirmed");
         btn.disabled = true;
     }
     if (status) status.style.display = "block";
+
+    // Opcional: Se desejar ofuscar a visualização do telefone no card visual ao vivo
+    if (phoneBadge && phoneUsed) {
+        const obscured = phoneUsed.length >= 8
+            ? phoneUsed.substring(0, 4) + "****" + phoneUsed.substring(phoneUsed.length - 2)
+            : phoneUsed;
+        phoneBadge.innerText = obscured;
+    }
 }
 
 // --- GIFTS LOGIC ---
@@ -294,11 +337,12 @@ function claimGift(giftName) {
 
 // Init
 window.onload = () => {
-    renderGuests();
+    loadGuestsFromFirebase();
     renderGifts();
+    if (typeof createBackgroundFlowers === 'function') createBackgroundFlowers();
 
     // Welcome logic
-    if(btnStartMusic) {
+    if (btnStartMusic) {
         btnStartMusic.onclick = () => {
             welcomeModal.style.display = 'none';
             // Start audio when user clicks
@@ -307,20 +351,20 @@ window.onload = () => {
             });
         };
     }
-    
+
     // Configura a Barra de Pesquisa
     if (searchInput) {
         searchInput.addEventListener('input', (e) => {
             const term = e.target.value.toLowerCase();
             const cards = document.querySelectorAll('.guest-card');
-            
+
             cards.forEach(card => {
                 const nameTarget = card.querySelector('h4');
                 const phoneTarget = card.querySelector('.phone-badge');
-                
+
                 const name = nameTarget ? nameTarget.innerText.toLowerCase() : '';
                 const phone = phoneTarget ? phoneTarget.innerText.toLowerCase() : '';
-                
+
                 if (name.includes(term) || phone.includes(term)) {
                     card.style.display = 'flex';
                 } else {
@@ -329,4 +373,68 @@ window.onload = () => {
             });
         });
     }
+};
+
+// --- ÁREA ADMINISTRATIVA ---
+const btnAdmin = document.getElementById('btn-admin');
+const adminModal = document.getElementById('admin-modal');
+
+if (btnAdmin) {
+    btnAdmin.onclick = () => {
+        const pwd = prompt("SISTEMA VIP:\nDigite a senha de acesso administrativo:");
+        if (pwd === "132011") {
+            adminModal.style.display = 'flex';
+            renderAdminList();
+        } else if (pwd !== null) {
+            alert("Senha Incorreta. Acesso Negado.");
+        }
+    }
+}
+
+window.addNewGuest = function () {
+    const name = document.getElementById('admin-new-name').value.trim();
+    const phone = document.getElementById('admin-new-phone').value.trim();
+    const cat = document.getElementById('admin-new-cat').value;
+
+    if (!name) return alert("Por favor, digite o nome completo.");
+
+    const id = generateId(name);
+    db.ref(`guests/${id}`).set({
+        name, phone, category: cat
+    }).then(() => {
+        alert(`${name} adicionado(a) com sucesso ao sistema!`);
+        document.getElementById('admin-new-name').value = '';
+        document.getElementById('admin-new-phone').value = '';
+    });
+};
+
+window.removeGuest = function (id) {
+    if (confirm("ATENÇÃO: Deseja realmente excluir este convidado e desmarcar sua presença (caso exista)?")) {
+        // Exclui do cadastro e do RSVP
+        db.ref(`guests/${id}`).remove();
+        db.ref(`rsvp/${id}`).remove();
+    }
+};
+
+window.renderAdminList = function () {
+    const adminList = document.getElementById('admin-guest-list');
+    adminList.innerHTML = '';
+
+    if (!window.currentGuestsFromDB) return;
+
+    // Lista em ordem alfabética
+    const sorted = [...window.currentGuestsFromDB].sort((a, b) => a.name.localeCompare(b.name));
+
+    sorted.forEach(g => {
+        const div = document.createElement('div');
+        div.style = "display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #eee; padding: 0.8rem 0;";
+        div.innerHTML = `
+            <div style="line-height:1.2;">
+                <strong style="color:var(--text-dark);">${g.name}</strong><br>
+                <span style="font-size:0.75rem; color:#888;">Categoria: ${g.category} &nbsp;|&nbsp; Cel: ${g.phone || '(Não Cadastrado)'}</span>
+            </div>
+            <button onclick="removeGuest('${g.id}')" style="color: #dc3545; border: 1px solid #dc3545; background: transparent; border-radius: 4px; padding: 0.3rem 0.6rem; cursor: pointer; font-size: 0.75rem; font-weight: bold;">✕ Excluir</button>
+        `;
+        adminList.appendChild(div);
+    });
 };
