@@ -18,13 +18,15 @@
 
 <body>
     <!-- Navigation Header -->
-    <header class="navbar">
+    <header class="navbar" id="navbar">
         <div class="nav-container">
-            <div class="nav-logo">Yohanna 15</div>
-            <nav class="nav-links">
-                <a href="#detalhes">Detalhes</a>
-                <a href="#confirmacao">Presença</a>
-                <a href="#presentes">Presentes</a>
+            <button class="nav-hamburger" id="nav-toggle" aria-label="Menu">
+                <span></span><span></span><span></span>
+            </button>
+            <nav class="nav-links" id="nav-links">
+                <a href="#detalhes" class="nav-link">Detalhes Do Convite</a>
+                <a href="#confirmacao" class="nav-link">Confirmar Presença</a>
+                <a href="#presentes" class="nav-link">Sugestão de Presentes</a>
             </nav>
         </div>
     </header>
@@ -128,15 +130,22 @@
 
     <!-- Global Custom Modal -->
     <div id="custom-alert-modal" class="modal" style="z-index: 10000; align-items:flex-start; padding-top:15vh;">
-        <div class="modal-content" style="max-width: 400px; text-align: center; border-top: 5px solid var(--olive-primary); border-radius: 12px; box-shadow: 0 10px 25px rgba(0,0,0,0.2);">
-            <h3 id="custom-alert-title" style="color: var(--olive-dark); margin-bottom: 0.8rem; font-size: 1.4rem;">Aviso</h3>
-            <p id="custom-alert-message" style="margin-bottom: 1.5rem; font-family: var(--font-sans); color: #555; line-height: 1.4;"></p>
-            
-            <input type="text" id="custom-alert-input" style="display:none; width: 100%; padding: 0.8rem; margin-bottom: 1.2rem; border: 1px solid #ddd; border-radius: 4px; font-family: var(--font-sans);" autocomplete="off">
-            
+        <div class="modal-content"
+            style="max-width: 400px; text-align: center; border-top: 5px solid var(--olive-primary); border-radius: 12px; box-shadow: 0 10px 25px rgba(0,0,0,0.2);">
+            <h3 id="custom-alert-title" style="color: var(--olive-dark); margin-bottom: 0.8rem; font-size: 1.4rem;">
+                Aviso</h3>
+            <p id="custom-alert-message"
+                style="margin-bottom: 1.5rem; font-family: var(--font-sans); color: #555; line-height: 1.4;"></p>
+
+            <input type="text" id="custom-alert-input"
+                style="display:none; width: 100%; padding: 0.8rem; margin-bottom: 1.2rem; border: 1px solid #ddd; border-radius: 4px; font-family: var(--font-sans);"
+                autocomplete="off">
+
             <div style="display: flex; gap: 10px; justify-content: center;">
-                <button id="custom-alert-btn-cancel" style="display: none; background: #fdfdfd; border: 1px solid #ccc; color: #666; border-radius: 30px; cursor: pointer; padding: 0.7rem 1.5rem; font-weight: 600;">Cancelar</button>
-                <button id="custom-alert-btn-ok" class="btn-confirm" style="padding: 0.7rem 1.5rem; border-radius: 30px; font-weight: bold; width: 100%; border:none;">OK</button>
+                <button id="custom-alert-btn-cancel"
+                    style="display: none; background: #fdfdfd; border: 1px solid #ccc; color: #666; border-radius: 30px; cursor: pointer; padding: 0.7rem 1.5rem; font-weight: 600;">Cancelar</button>
+                <button id="custom-alert-btn-ok" class="btn-confirm"
+                    style="padding: 0.7rem 1.5rem; border-radius: 30px; font-weight: bold; width: 100%; border:none;">OK</button>
             </div>
         </div>
     </div>
@@ -144,29 +153,43 @@
     <!-- Admin Modal -->
     <div id="admin-modal" class="modal">
         <div class="modal-content" style="max-width: 500px; max-height: 85vh; overflow-y: auto;">
-            <h3 style="color: var(--olive-primary); border-bottom: 2px solid var(--gold); padding-bottom: 0.5rem;">Painel Administrativo</h3>
-            
-            <div style="margin: 1.5rem 0; padding: 1.5rem; background: #fdfdfd; border: 1px solid #eee; border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.05);">
+            <h3 style="color: var(--olive-primary); border-bottom: 2px solid var(--gold); padding-bottom: 0.5rem;">
+                Painel Administrativo</h3>
+
+            <div
+                style="margin: 1.5rem 0; padding: 1.5rem; background: #fdfdfd; border: 1px solid #eee; border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.05);">
                 <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
-                    <h4 style="margin: 0; font-family: var(--font-sans); color: var(--olive-dark);">Adicionar / Editar</h4>
-                    <button id="btn-admin-cancel" onclick="cancelEdit()" style="display:none; background: none; border: none; color: #dc3545; font-size: 0.8rem; cursor: pointer; text-decoration: underline;">Cancelar Edição</button>
+                    <h4 style="margin: 0; font-family: var(--font-sans); color: var(--olive-dark);">Adicionar / Editar
+                    </h4>
+                    <button id="btn-admin-cancel" onclick="cancelEdit()"
+                        style="display:none; background: none; border: none; color: #dc3545; font-size: 0.8rem; cursor: pointer; text-decoration: underline;">Cancelar
+                        Edição</button>
                 </div>
-                <input type="text" id="admin-new-name" placeholder="Nome Completo" style="margin-bottom: 0.8rem; width: 100%; padding: 0.8rem; border: 1px solid #ddd; border-radius: 4px; font-family: var(--font-sans);">
-                <input type="tel" id="admin-new-phone" placeholder="Telefone (Opcional, apenas números)" style="margin-bottom: 0.8rem; width: 100%; padding: 0.8rem; border: 1px solid #ddd; border-radius: 4px; font-family: var(--font-sans);">
-                <select id="admin-new-cat" style="width: 100%; padding: 0.8rem; margin-bottom: 1rem; border: 1px solid #ddd; border-radius: 4px; font-family: var(--font-sans);">
+                <input type="text" id="admin-new-name" placeholder="Nome Completo"
+                    style="margin-bottom: 0.8rem; width: 100%; padding: 0.8rem; border: 1px solid #ddd; border-radius: 4px; font-family: var(--font-sans);">
+                <input type="tel" id="admin-new-phone" placeholder="Telefone (Opcional, apenas números)"
+                    style="margin-bottom: 0.8rem; width: 100%; padding: 0.8rem; border: 1px solid #ddd; border-radius: 4px; font-family: var(--font-sans);">
+                <select id="admin-new-cat"
+                    style="width: 100%; padding: 0.8rem; margin-bottom: 1rem; border: 1px solid #ddd; border-radius: 4px; font-family: var(--font-sans);">
                     <option value="Família">Família / Parente</option>
                     <option value="Amigo">Amigo(a)</option>
                 </select>
-                <button class="btn-confirm" id="btn-admin-save" onclick="saveGuest()" style="width: 100%; padding: 1rem; border-radius: 30px;">Salvar na Lista</button>
+                <button class="btn-confirm" id="btn-admin-save" onclick="saveGuest()"
+                    style="width: 100%; padding: 1rem; border-radius: 30px;">Salvar na Lista</button>
             </div>
-            
-            <h4 style="margin-bottom: 0.5rem; font-family: var(--font-sans); color: var(--olive-dark);">Cadastrados no Sistema</h4>
-            <input type="text" id="admin-search" placeholder="Pesquisar para excluir..." style="margin-bottom: 1rem; width: 100%; padding: 0.6rem; border: 1px solid #ddd; border-radius: 4px; font-family: var(--font-sans);">
-            <div id="admin-guest-list" style="text-align: left; max-height: 350px; overflow-y: auto; font-family: var(--font-sans); border: 1px solid #eee; border-radius: 8px; padding: 0.5rem 1rem;">
+
+            <h4 style="margin-bottom: 0.5rem; font-family: var(--font-sans); color: var(--olive-dark);">Cadastrados no
+                Sistema</h4>
+            <input type="text" id="admin-search" placeholder="Pesquisar para excluir..."
+                style="margin-bottom: 1rem; width: 100%; padding: 0.6rem; border: 1px solid #ddd; border-radius: 4px; font-family: var(--font-sans);">
+            <div id="admin-guest-list"
+                style="text-align: left; max-height: 350px; overflow-y: auto; font-family: var(--font-sans); border: 1px solid #eee; border-radius: 8px; padding: 0.5rem 1rem;">
                 <!-- Preenchido via JS -->
             </div>
 
-            <button onclick="document.getElementById('admin-modal').style.display='none'" style="margin-top: 1.5rem; background: transparent; border: 1px solid #ccc; color: #666; border-radius: 30px; cursor: pointer; padding: 0.8rem 2rem; font-weight: 600;">Sair do Painel</button>
+            <button onclick="document.getElementById('admin-modal').style.display='none'"
+                style="margin-top: 1.5rem; background: transparent; border: 1px solid #ccc; color: #666; border-radius: 30px; cursor: pointer; padding: 0.8rem 2rem; font-weight: 600;">Sair
+                do Painel</button>
         </div>
     </div>
 
@@ -176,9 +199,12 @@
     <footer>
         <h2>Yohanna</h2>
         <p>15.05.2026</p>
-        <p style="margin-top: 1rem; font-size: 0.8rem; opacity: 0.7;">Desenvolvido com carinho para esse momento especial.</p>
+        <p style="margin-top: 1rem; font-size: 0.8rem; opacity: 0.7;">Desenvolvido com carinho para esse momento
+            especial.</p>
         <div style="margin-top: 2rem;">
-            <button id="btn-admin" style="background: none; border: none; color: rgba(255,255,255,0.3); font-size: 0.75rem; cursor: pointer;">Área Administrativa</button>
+            <button id="btn-admin"
+                style="background: none; border: none; color: rgba(255,255,255,0.3); font-size: 0.75rem; cursor: pointer;">Área
+                Administrativa</button>
         </div>
     </footer>
 

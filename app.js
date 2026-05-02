@@ -126,6 +126,26 @@ const giftSuggestions = {
 
 let selectedGuest = null;
 
+// --- HAMBURGER MENU ---
+const navToggle = document.getElementById('nav-toggle');
+const navbar = document.getElementById('navbar');
+const navLinks = document.getElementById('nav-links');
+
+if (navToggle && navbar) {
+    navToggle.addEventListener('click', () => {
+        navbar.classList.toggle('open');
+    });
+
+    // Fecha o menu ao clicar em qualquer link
+    if (navLinks) {
+        navLinks.querySelectorAll('.nav-link').forEach(link => {
+            link.addEventListener('click', () => {
+                navbar.classList.remove('open');
+            });
+        });
+    }
+}
+
 // --- CUSTOM MODAL UTILS ---
 const customAlertModal = document.getElementById('custom-alert-modal');
 const customAlertTitle = document.getElementById('custom-alert-title');
