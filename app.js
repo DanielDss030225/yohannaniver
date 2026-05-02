@@ -129,25 +129,43 @@ function generateId(str) {
 function renderGuests() {
     guestListContainer.innerHTML = '';
 
-    // Unida as listas de família e amigos para pesquisa unificada
-    const list = [...family, ...friends];
+    // Unifica família e amigos mapeando a categoria de origem
+    const listFamily = family.map(item => ({ 
+        name: typeof item === 'string' ? item : item.name, 
+        phone: typeof item === 'string' ? '' : item.phone || '', 
+        category: 'Família'
+    }));
+    
+    const listFriends = friends.map(item => ({
+        name: typeof item === 'string' ? item : item.name,
+        phone: typeof item === 'string' ? '' : item.phone || '',
+        category: 'Amigo'
+    }));
+
+    const list = [...listFamily, ...listFriends];
 
     list.forEach(item => {
-        const name = typeof item === 'string' ? item : item.name;
-        const phone = typeof item === 'string' ? '' : item.phone;
-        const id = generateId(name);
+        const id = generateId(item.name);
+        
+        // Define as cores das badges
+        const badgeColor = item.category === 'Família' 
+            ? 'background: #C5A059; color: #FFFFFF;' // Gold color
+            : 'background: var(--olive-light); color: var(--text-dark);';
 
         const card = document.createElement('div');
         card.className = 'guest-card';
         card.id = `guest-${id}`;
-
+        
         card.innerHTML = `
-            <div class="guest-info">
-                <h4>${name}</h4>
-                ${phone ? `<span class="phone-badge">${phone}</span>` : ''}
-                <div id="status-${id}" style="font-size: 0.8rem; color: #28a745; margin-top: 5px; display: none;">✓ Presença Confirmada</div>
+            <div class="guest-info" style="display: flex; flex-direction: column; gap: 6px; align-items: flex-start;">
+                <h4 style="margin: 0; line-height: 1;">${item.name}</h4>
+                <div style="display: flex; gap: 5px; flex-wrap: wrap;">
+                    <span style="${badgeColor} padding: 0.15rem 0.5rem; border-radius: 12px; font-size: 0.65rem; font-weight: 600; text-transform: uppercase;">${item.category}</span>
+                    ${item.phone && item.phone !== '********' && item.phone !== '*******' ? `<span class="phone-badge">${item.phone}</span>` : ''}
+                </div>
+                <div id="status-${id}" style="font-size: 0.8rem; color: #28a745; font-weight: 600; margin-top: 2px; display: none;">✓ Confirmado</div>
             </div>
-            <button class="btn-confirm" onclick="openRSVPModal('${name}', '${phone}')" id="btn-${id}">Confirmar</button>
+            <button class="btn-confirm" onclick="openRSVPModal('${item.name}', '${item.phone}')" id="btn-${id}">Confirmar</button>
         `;
         guestListContainer.appendChild(card);
 
