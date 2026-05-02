@@ -114,6 +114,11 @@ const modalGuestName = document.getElementById('modal-guest-name');
 const phoneInput = document.getElementById('guest-phone-input');
 const btnFinalConfirm = document.getElementById('btn-final-confirm');
 
+// Welcome Modal & Audio Elements
+const welcomeModal = document.getElementById('welcome-modal');
+const btnStartMusic = document.getElementById('btn-start-music');
+const bgMusic = document.getElementById('bg-music');
+
 // --- Functions ---
 
 function switchCategory(cat) {
@@ -278,4 +283,15 @@ function claimGift(giftName) {
 window.onload = () => {
     renderGuests();
     renderGifts();
+    
+    // Welcome logic
+    if(btnStartMusic) {
+        btnStartMusic.onclick = () => {
+            welcomeModal.style.display = 'none';
+            // Start audio when user clicks
+            bgMusic.play().catch(err => {
+                console.warn("Navegador impediu a reprodução automática do áudio", err);
+            });
+        };
+    }
 };
