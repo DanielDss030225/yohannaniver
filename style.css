@@ -199,11 +199,33 @@ html {
     margin: 0 auto;
     padding: 0.85rem 1.5rem;
     display: flex;
-    justify-content: flex-end;
+    justify-content: flex-start;
     align-items: center;
     flex-wrap: wrap;
     gap: 0;
     position: relative;
+}
+
+/* --- Logo (direita) --- */
+.nav-logo {
+    margin-left: auto;
+    font-family: var(--font-serif);
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--white);
+    background: var(--olive-primary);
+    text-decoration: none;
+    padding: 0.4rem 1rem;
+    border-radius: 20px;
+    letter-spacing: 0.5px;
+    transition: background 0.25s ease;
+    white-space: nowrap;
+    cursor: pointer;
+    border: none;
+}
+
+.nav-logo:hover {
+    background: var(--olive-dark);
 }
 
 /* --- Hamburger Button --- */
