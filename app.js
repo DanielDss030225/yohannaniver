@@ -79,48 +79,56 @@ function migrateInitialDataToFirebase() {
 }
 
 const giftSuggestions = {
-    "Beleza e Autocuidado": [
+    "🌱 Economia (até ~R$15)": [
+        "Gloss labial 💄", "Balm hidratante", "Lápis de cor 🎨", "Canetas coloridas ✏️",
+        "Esponja de maquiagem", "Lixa elétrica simples", "Meias estilosas", "Jogo UNO 🃏",
+        "Jogo de cartas", "Pop socket", "Scrunchies (kit) 🎀", "Presilhas estilosas",
+        "Cartas personalizadas 💌", "Chocolates 🍫", "Kit doces personalizados", "Vale lanche 🍔"
+    ],
+    "💛 Acessível (R$15–R$35)": [
+        "Esmaltes coloridos (kit) 💅", "Kit de unhas", "Removedor de maquiagem", "Máscara facial",
+        "Pincéis básicos de maquiagem", "Espelho portátil", "Brincos delicados 💍", "Anel regulável",
+        "Choker", "Pulseira simples", "Tiara estilosa", "Chaveiro personalizado",
+        "Copo estiloso ☕", "Caneca personalizada", "Porta-retrato", "Almofada decorativa",
+        "Pelúcia 🧸", "Quadro pequeno", "Agenda fofa 📔", "Caderno estiloso",
+        "Kit papelaria", "Livro de colorir", "Material de desenho", "Diário 📖",
+        "Caixa de guloseimas 🍬", "Cesta pequena", "Chocolate importado"
+    ],
+    "💜 Médio (R$35–R$60)": [
+        "Hidratante corporal 🧴", "Leave-in capilar", "Tônico capilar", "Óleo capilar",
+        "Creme para cabelo", "Body splash 🌸", "Kit de skincare básico", "Nécessaire",
+        "Colar com inicial ✨", "Corrente simples", "Kit bijuterias", "Porta-joias",
+        "Óculos de sol 🕶️", "Cinto feminino", "Livro jovem (romance/fantasia) 📚",
+        "Quebra-cabeça 🧩", "Kit DIY (faça você mesma)", "Planner 📅", "Caixa surpresa 🎁",
+        "Álbum simples", "Luminária decorativa 💡", "Kit spa caseiro",
+        "Vale cinema 🎬", "Playlist personalizada + cartinha 🎵", "Caixa 'open when' 💌"
+    ],
+    "💗 Custo-Benefício (R$60–R$100)": [
+        "Kit de maquiagem simples 💄", "Perfume nacional pequeno 🌺", "Tônico facial + hidratante",
+        "Cropped + saia 👗", "Pijama fofo 🌙", "Top esportivo + legging básica",
+        "Boné 🧢", "Cachecol leve", "Cardigan leve", "Bolsa pequena 👜",
+        "Bolsa transversal", "Mochila simples 🎒", "Chinelo de marca 🩴",
+        "Tiara + kit acessórios", "Relógio simples ⌚", "Suporte para celular",
+        "Cabo estilizado", "Mini luminária USB 💻", "Capa de celular personalizada 📱",
+        "Ring light pequeno 📷", "Tripé simples", "Mouse básico 🖱️", "Power bank simples 🔋",
+        "Fone de ouvido simples 🎧", "Kit de pintura 🎨", "Caixa de fotos explosiva 📸",
+        "Álbum personalizado", "Cartão presente R$50–R$100 🎁",
+        "Vale salão simples 💇", "Vale maquiagem 💋", "Dinheiro ou Pix 💸"
+    ],
+    "⭐ Presentes Especiais (R$100+)": [
         "Maleta de maquiagem", "Kit de maquiagem profissional", "Espelho com LED", "Escova secadora",
-        "Chapinha profissional", "Babyliss", "Kit skincare", "Perfume importado", "Perfume nacional",
-        "Hidratantes premium", "Kit de unhas", "Esmaltes importados", "Nécessaire personalizada", "Massagem relaxante (voucher)"
-    ],
-    "Joias e Acessórios": [
-        "Anel de debutante", "Colar com inicial", "Pulseira de prata", "Brincos delicados",
-        "Relógio feminino", "Gargantilha", "Choker estilosa", "Pingente personalizado",
-        "Berloques para pulseira", "Corrente dourada", "Anel com pedra", "Kit de acessórios",
-        "Óculos de sol", "Bolsa pequena elegante", "Mochila fashion"
-    ],
-    "Tecnologia": [
+        "Chapinha profissional", "Babyliss", "Perfume importado", "Nécessaire personalizada",
+        "Massagem relaxante (voucher)", "Anel de debutante", "Pulseira de prata",
+        "Relógio feminino", "Gargantilha", "Pingente personalizado", "Corrente dourada",
+        "Anel com pedra", "Bolsa pequena elegante", "Mochila fashion",
         "Celular (tipo iPhone ou Samsung)", "Tablet", "Notebook", "Fone Bluetooth",
-        "Headset gamer", "Caixa de som portátil", "Smartwatch", "Kindle", "Ring light",
-        "Tripé para celular", "Teclado gamer", "Mouse gamer", "Capa personalizada",
-        "Power bank", "Alexa / assistente virtual"
-    ],
-    "Moda e Estilo": [
+        "Headset gamer", "Caixa de som portátil", "Smartwatch", "Kindle",
+        "Teclado gamer", "Alexa / assistente virtual",
         "Vestido para festa", "Tênis estiloso", "Sandália elegante", "Salto alto",
-        "Jaqueta jeans", "Jaqueta de couro", "Conjunto de roupas", "Bolsa de marca",
-        "Roupas de academia", "Pijama fofo", "Cropped + saia", "Blazer feminino",
-        "Calça jeans premium", "Chinelo de marca", "Boné estiloso"
-    ],
-    "Criativos e Personalizados": [
-        "Quadro com fotos", "Álbum personalizado", "Scrapbook", "Caneca personalizada",
-        "Livro de mensagens", "Caixa surpresa", "Caixa de fotos explosiva",
-        "Ilustração personalizada", "Luminária com nome", "Porta-retrato digital"
-    ],
-    "Cultura e Hobbies": [
-        "Livros (romance/fantasia)", "Box de livros", "Curso online (maquiagem, desenho)",
-        "Aula de dança", "Aula de canto", "Aula de equitação", "Curso de idiomas",
-        "Curso de fotografia", "Material de pintura", "Instrumento musical"
-    ],
-    "Quarto e Decoração": [
-        "LED para quarto", "Cortina estilosa", "Almofadas decorativas", "Tapete fofo",
-        "Poltrona para quarto", "Espelho grande", "Painel de fotos", "Luminária decorativa",
-        "Difusor de aromas", "Kit decoração completo"
-    ],
-    "Experiências": [
-        "Viagem", "Dia de princesa (spa completo)", "Ensaio fotográfico", "Festa surpresa",
-        "Jantar especial", "Ingresso de show", "Passeio de helicóptero", "Dia em resort",
-        "Curso VIP (maquiagem/moda)", "Dinheiro ou Pix (ela escolhe o que quiser 💸)"
+        "Jaqueta jeans", "Jaqueta de couro", "Bolsa de marca",
+        "LED para quarto", "Espelho grande", "Poltrona para quarto",
+        "Viagem 🌎", "Dia de princesa (spa completo)", "Ensaio fotográfico 📸",
+        "Jantar especial 🍽️", "Ingresso de show 🎤", "Curso VIP (maquiagem/moda)"
     ]
 };
 
