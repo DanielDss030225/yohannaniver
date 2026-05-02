@@ -78,43 +78,49 @@ function migrateInitialDataToFirebase() {
     });
 }
 
-// Lista unificada ordenada do mais barato ao mais caro
 const giftSuggestions = {
-    "Economia (até ~R$15)": [
-        "Gloss labial 💄", "Balm hidratante", "Lápis de cor 🎨", "Canetas coloridas ✏️",
-        "Esponja de maquiagem", "Lixa elétrica simples", "Meias estilosas", "Jogo UNO 🃏",
-        "Jogo de cartas", "Pop socket", "Scrunchies (kit) 🎀", "Presilhas estilosas",
-        "Cartas personalizadas 💌", "Chocolates 🍫", "Kit doces personalizados", "Vale lanche 🍔"
+    "Beleza e Autocuidado": [
+        "Maleta de maquiagem", "Kit de maquiagem profissional", "Espelho com LED", "Escova secadora",
+        "Chapinha profissional", "Babyliss", "Kit skincare", "Perfume importado", "Perfume nacional",
+        "Hidratantes premium", "Kit de unhas", "Esmaltes importados", "Nécessaire personalizada", "Massagem relaxante (voucher)"
     ],
-    "Acessível (R$15–R$35)": [
-        "Esmaltes coloridos (kit) 💅", "Kit de unhas", "Removedor de maquiagem", "Máscara facial",
-        "Pincéis básicos de maquiagem", "Espelho portátil", "Brincos delicados 💍", "Anel regulável",
-        "Choker", "Pulseira simples", "Tiara estilosa", "Chaveiro personalizado",
-        "Copo estiloso ☕", "Caneca personalizada", "Porta-retrato", "Almofada decorativa",
-        "Pelúcia 🧸", "Quadro pequeno", "Agenda fofa 📔", "Caderno estiloso",
-        "Kit papelaria", "Livro de colorir", "Material de desenho", "Diário 📖",
-        "Caixa de guloseimas 🍬", "Cesta pequena", "Chocolate importado"
+    "Joias e Acessórios": [
+        "Anel de debutante", "Colar com inicial", "Pulseira de prata", "Brincos delicados",
+        "Relógio feminino", "Gargantilha", "Choker estilosa", "Pingente personalizado",
+        "Berloques para pulseira", "Corrente dourada", "Anel com pedra", "Kit de acessórios",
+        "Óculos de sol", "Bolsa pequena elegante", "Mochila fashion"
     ],
-    "Médio (R$35–R$60)": [
-        "Hidratante corporal 🧴", "Leave-in capilar", "Tônico capilar", "Óleo capilar",
-        "Creme para cabelo", "Body splash 🌸", "Kit de skincare básico", "Nécessaire",
-        "Colar com inicial ✨", "Corrente simples", "Kit bijuterias", "Porta-joias",
-        "Óculos de sol 🕶️", "Cinto feminino", "Libro jovem (romance/fantasia) 📚",
-        "Quebra-cabeça 🧩", "Kit DIY (faça você mesma)", "Planner 📅", "Caixa surpresa 🎁",
-        "Álbum simples", "Luminária decorativa 💡", "Kit spa caseiro",
-        "Vale cinema 🎬", "Playlist personalizada + cartinha 🎵", "Caixa 'open when' 💌"
+    "Tecnologia": [
+        "Celular (tipo iPhone ou Samsung)", "Tablet", "Notebook", "Fone Bluetooth",
+        "Headset gamer", "Caixa de som portátil", "Smartwatch", "Kindle", "Ring light",
+        "Tripé para celular", "Teclado gamer", "Mouse gamer", "Capa personalizada",
+        "Power bank", "Alexa / assistente virtual"
     ],
-    "Custo-Benefício (R$60–R$100)": [
-        "Kit de maquiagem simples 💄", "Perfume nacional pequeno 🌺", "Tônico facial + hidratante",
-        "Cropped + saia 👗", "Pijama fofo 🌙", "Top esportivo + legging básica",
-        "Boné 🧢", "Cachecol leve", "Cardigan leve", "Bolsa pequena 👜",
-        "Bolsa transversal", "Mochila simples 🎒", "Chinelo de marca 🩴",
-        "Tiara + kit acessórios", "Relógio simples ⌚", "Suporte para celular",
-        "Cabo estilizado", "Mini luminária USB 💻", "Capa de celular personalizada 📱",
-        "Ring light pequeno 📷", "Tripé simples", "Mouse básico 🖱️", "Power bank simples 🔋",
-        "Fone de ouvido simples 🎧", "Kit de pintura 🎨", "Caixa de fotos explosiva 📸",
-        "Álbum personalizado", "Cartão presente R$50–R$100 🎁",
-        "Vale salão simples 💇", "Vale maquiagem 💋", "Dinheiro ou Pix 💸"
+    "Moda e Estilo": [
+        "Vestido para festa", "Tênis estiloso", "Sandália elegante", "Salto alto",
+        "Jaqueta jeans", "Jaqueta de couro", "Conjunto de roupas", "Bolsa de marca",
+        "Roupas de academia", "Pijama fofo", "Cropped + saia", "Blazer feminino",
+        "Calça jeans premium", "Chinelo de marca", "Boné estiloso"
+    ],
+    "Criativos e Personalizados": [
+        "Quadro com fotos", "Álbum personalizado", "Scrapbook", "Caneca personalizada",
+        "Livro de mensagens", "Caixa surpresa", "Caixa de fotos explosiva",
+        "Ilustração personalizada", "Luminária com nome", "Porta-retrato digital"
+    ],
+    "Cultura e Hobbies": [
+        "Livros (romance/fantasia)", "Box de livros", "Curso online (maquiagem, desenho)",
+        "Aula de dança", "Aula de canto", "Aula de equitação", "Curso de idiomas",
+        "Curso de fotografia", "Material de pintura", "Instrumento musical"
+    ],
+    "Quarto e Decoração": [
+        "LED para quarto", "Cortina estilosa", "Almofadas decorativas", "Tapete fofo",
+        "Poltrona para quarto", "Espelho grande", "Painel de fotos", "Luminária decorativa",
+        "Difusor de aromas", "Kit decoração completo"
+    ],
+    "Experiências": [
+        "Viagem", "Dia de princesa (spa completo)", "Ensaio fotográfico", "Festa surpresa",
+        "Jantar especial", "Ingresso de show", "Passeio de helicóptero", "Dia em resort",
+        "Curso VIP (maquiagem/moda)", "Dinheiro ou Pix (ela escolhe o que quiser 💸)"
     ]
 };
 
@@ -148,48 +154,48 @@ const customAlertInput = document.getElementById('custom-alert-input');
 const customAlertBtnOk = document.getElementById('custom-alert-btn-ok');
 const customAlertBtnCancel = document.getElementById('custom-alert-btn-cancel');
 
-window.showCustomModal = function({ type = 'alert', title = 'Aviso', message = '', placeholder = '' }) {
+window.showCustomModal = function ({ type = 'alert', title = 'Aviso', message = '', placeholder = '' }) {
     return new Promise((resolve) => {
-        if(!customAlertModal) {
+        if (!customAlertModal) {
             // Em caso de falha no carregamento HTML
-            if(type === 'prompt') resolve(prompt(message));
-            else if(type === 'confirm') resolve(confirm(message));
+            if (type === 'prompt') resolve(prompt(message));
+            else if (type === 'confirm') resolve(confirm(message));
             else { alert(message); resolve(true); }
             return;
         }
 
         customAlertTitle.innerText = title;
         customAlertMessage.innerHTML = message;
-        
+
         customAlertInput.style.display = type === 'prompt' ? 'block' : 'none';
         customAlertInput.placeholder = placeholder;
         customAlertInput.value = '';
-        if(type === 'prompt') customAlertInput.type = placeholder.toLowerCase().includes('senha') ? 'password' : 'text';
-        
+        if (type === 'prompt') customAlertInput.type = placeholder.toLowerCase().includes('senha') ? 'password' : 'text';
+
         const isAlert = type === 'alert';
         customAlertBtnCancel.style.display = isAlert ? 'none' : 'block';
         customAlertBtnOk.style.width = isAlert ? '100%' : '50%';
         customAlertBtnCancel.style.width = isAlert ? '100%' : '50%';
-        
+
         customAlertModal.style.display = 'flex';
-        if(type === 'prompt') setTimeout(() => customAlertInput.focus(), 100);
-        
+        if (type === 'prompt') setTimeout(() => customAlertInput.focus(), 100);
+
         const cleanup = () => {
             customAlertModal.style.display = 'none';
             customAlertBtnOk.onclick = null;
             customAlertBtnCancel.onclick = null;
         };
-        
+
         customAlertBtnOk.onclick = () => {
             cleanup();
-            if(type === 'prompt') resolve(customAlertInput.value);
-            else if(type === 'confirm') resolve(true);
+            if (type === 'prompt') resolve(customAlertInput.value);
+            else if (type === 'confirm') resolve(true);
             else resolve(true);
         };
-        
+
         customAlertBtnCancel.onclick = () => {
             cleanup();
-            if(type === 'prompt') resolve(null);
+            if (type === 'prompt') resolve(null);
             else resolve(false);
         };
     });
@@ -384,7 +390,7 @@ function renderGifts() {
     }
 }
 
-window.claimGift = async function(giftName) {
+window.claimGift = async function (giftName) {
     const name = await showCustomModal({ type: 'prompt', title: 'Reservar Presente', message: `Qual o seu nome para marcar este presente?<br><strong style="color:var(--olive-primary)">${giftName}</strong>`, placeholder: 'Seu Nome Completo' });
     if (!name) return;
 
@@ -451,7 +457,7 @@ const adminSearch = document.getElementById('admin-search');
 
 if (adminSearch) {
     adminSearch.addEventListener('input', (e) => {
-        if(window.renderAdminList) window.renderAdminList(e.target.value);
+        if (window.renderAdminList) window.renderAdminList(e.target.value);
     });
 }
 
@@ -469,16 +475,16 @@ if (btnAdmin) {
 
 window.editingGuestId = null;
 
-window.saveGuest = async function() {
+window.saveGuest = async function () {
     const name = document.getElementById('admin-new-name').value.trim();
     const phone = document.getElementById('admin-new-phone').value.trim();
     const cat = document.getElementById('admin-new-cat').value;
-    
-    if(!name) return await showCustomModal({ title: 'Atenção', message: 'Por favor, digite o nome completo.' });
-    
+
+    if (!name) return await showCustomModal({ title: 'Atenção', message: 'Por favor, digite o nome completo.' });
+
     // Se estiver editando, mantemos o ID para não perder histórico de RSVPs vinculados ao ID original
     const id = window.editingGuestId || generateId(name);
-    
+
     db.ref(`guests/${id}`).update({
         name, phone, category: cat
     }).then(async () => {
@@ -487,20 +493,20 @@ window.saveGuest = async function() {
     });
 };
 
-window.editGuest = function(id) {
+window.editGuest = function (id) {
     const guest = window.currentGuestsFromDB.find(g => g.id === id);
-    if(guest) {
+    if (guest) {
         document.getElementById('admin-new-name').value = guest.name;
         document.getElementById('admin-new-phone').value = guest.phone || '';
         document.getElementById('admin-new-cat').value = guest.category;
-        
+
         document.getElementById('btn-admin-save').innerText = "Salvar Alterações";
         document.getElementById('btn-admin-cancel').style.display = 'block';
         window.editingGuestId = id;
     }
 };
 
-window.cancelEdit = function() {
+window.cancelEdit = function () {
     document.getElementById('admin-new-name').value = '';
     document.getElementById('admin-new-phone').value = '';
     document.getElementById('admin-new-cat').value = 'Família';
@@ -509,8 +515,8 @@ window.cancelEdit = function() {
     window.editingGuestId = null;
 };
 
-window.removeGuest = async function(id) {
-    const confirmed = await showCustomModal({ type: 'confirm', title: 'ATENÇÃO', message: `Deseja realmente excluir este convidado e desmarcar sua presença (caso exista)?<br><br>Esta ação não pode ser desfeita.`});
+window.removeGuest = async function (id) {
+    const confirmed = await showCustomModal({ type: 'confirm', title: 'ATENÇÃO', message: `Deseja realmente excluir este convidado e desmarcar sua presença (caso exista)?<br><br>Esta ação não pode ser desfeita.` });
     if (confirmed) {
         // Exclui do cadastro e do RSVP
         db.ref(`guests/${id}`).remove();
@@ -518,23 +524,23 @@ window.removeGuest = async function(id) {
     }
 };
 
-window.renderAdminList = function(searchTerm = '') {
+window.renderAdminList = function (searchTerm = '') {
     const adminList = document.getElementById('admin-guest-list');
-    if(!adminList) return;
+    if (!adminList) return;
     adminList.innerHTML = '';
-    
-    if(!window.currentGuestsFromDB) return;
-    
+
+    if (!window.currentGuestsFromDB) return;
+
     const term = searchTerm.toLowerCase();
-    
+
     // Lista em ordem alfabética
-    const sorted = [...window.currentGuestsFromDB].sort((a,b) => a.name.localeCompare(b.name));
-    
-    const filtered = sorted.filter(g => 
-        g.name.toLowerCase().includes(term) || 
+    const sorted = [...window.currentGuestsFromDB].sort((a, b) => a.name.localeCompare(b.name));
+
+    const filtered = sorted.filter(g =>
+        g.name.toLowerCase().includes(term) ||
         (g.phone && g.phone.includes(term))
     );
-    
+
     filtered.forEach(g => {
         const div = document.createElement('div');
         div.style = "display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #eee; padding: 0.8rem 0;";
