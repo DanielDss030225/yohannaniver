@@ -30,49 +30,137 @@ body {
 }
 
 @-webkit-keyframes bgPulse {
-    0%  { background-color: #cdd9c4; }  /* BATIDA 1 */
-    4%  { background-color: var(--off-white); }
-    14% { background-color: #cdd9c4; }  /* BATIDA 1 */
-    18% { background-color: var(--off-white); }
-    28% { background-color: #cdd9c4; }  /* BATIDA 1 */
-    32% { background-color: var(--off-white); }
-    
+    0% {
+        background-color: #cdd9c4;
+    }
+
+    /* BATIDA 1 */
+    4% {
+        background-color: var(--off-white);
+    }
+
+    14% {
+        background-color: #cdd9c4;
+    }
+
+    /* BATIDA 1 */
+    18% {
+        background-color: var(--off-white);
+    }
+
+    28% {
+        background-color: #cdd9c4;
+    }
+
+    /* BATIDA 1 */
+    32% {
+        background-color: var(--off-white);
+    }
+
     /* TEMPO DE PAUSA 32% ~ 50% */
-    50% { background-color: var(--off-white); }
-    
+    50% {
+        background-color: var(--off-white);
+    }
+
     /* BATIDAS RÁPIDAS 1-2-3 */
-    53% { background-color: #cdd9c4; }  /* 1 Rápido */
-    56% { background-color: var(--off-white); }
-    59% { background-color: #cdd9c4; }  /* 2 Rápido */
-    62% { background-color: var(--off-white); }
-    65% { background-color: #cdd9c4; }  /* 3 Rápido */
-    68% { background-color: var(--off-white); }
-    
+    53% {
+        background-color: #cdd9c4;
+    }
+
+    /* 1 Rápido */
+    56% {
+        background-color: var(--off-white);
+    }
+
+    59% {
+        background-color: #cdd9c4;
+    }
+
+    /* 2 Rápido */
+    62% {
+        background-color: var(--off-white);
+    }
+
+    65% {
+        background-color: #cdd9c4;
+    }
+
+    /* 3 Rápido */
+    68% {
+        background-color: var(--off-white);
+    }
+
     /* TEMPO FINAL ATÉ O REINÍCIO */
-    100%{ background-color: var(--off-white); }
+    100% {
+        background-color: var(--off-white);
+    }
 }
 
 @keyframes bgPulse {
-    0%  { background-color: #cdd9c4; }  /* BATIDA 1 */
-    4%  { background-color: var(--off-white); }
-    14% { background-color: #cdd9c4; }  /* BATIDA 1 */
-    18% { background-color: var(--off-white); }
-    28% { background-color: #cdd9c4; }  /* BATIDA 1 */
-    32% { background-color: var(--off-white); }
-    
+    0% {
+        background-color: #cdd9c4;
+    }
+
+    /* BATIDA 1 */
+    4% {
+        background-color: var(--off-white);
+    }
+
+    14% {
+        background-color: #cdd9c4;
+    }
+
+    /* BATIDA 1 */
+    18% {
+        background-color: var(--off-white);
+    }
+
+    28% {
+        background-color: #cdd9c4;
+    }
+
+    /* BATIDA 1 */
+    32% {
+        background-color: var(--off-white);
+    }
+
     /* TEMPO DE PAUSA 32% ~ 50% */
-    50% { background-color: var(--off-white); }
-    
+    50% {
+        background-color: var(--off-white);
+    }
+
     /* BATIDAS RÁPIDAS 1-2-3 */
-    53% { background-color: #cdd9c4; }  /* 1 Rápido */
-    56% { background-color: var(--off-white); }
-    59% { background-color: #cdd9c4; }  /* 2 Rápido */
-    62% { background-color: var(--off-white); }
-    65% { background-color: #cdd9c4; }  /* 3 Rápido */
-    68% { background-color: var(--off-white); }
-    
+    53% {
+        background-color: #cdd9c4;
+    }
+
+    /* 1 Rápido */
+    56% {
+        background-color: var(--off-white);
+    }
+
+    59% {
+        background-color: #cdd9c4;
+    }
+
+    /* 2 Rápido */
+    62% {
+        background-color: var(--off-white);
+    }
+
+    65% {
+        background-color: #cdd9c4;
+    }
+
+    /* 3 Rápido */
+    68% {
+        background-color: var(--off-white);
+    }
+
     /* TEMPO FINAL ATÉ O REINÍCIO */
-    100%{ background-color: var(--off-white); }
+    100% {
+        background-color: var(--off-white);
+    }
 }
 
 h1,
