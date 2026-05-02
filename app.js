@@ -277,15 +277,15 @@ function closeModal() {
     phoneModal.style.display = 'none';
 }
 
-btnFinalConfirm.onclick = () => {
+btnFinalConfirm.onclick = async () => {
     const input = phoneInput.value.trim().replace(/\D/g, '');
-    if (!input) return alert("Por favor, digite seu telefone válido.");
+    if (!input) return await showCustomModal({ title: 'Atenção', message: 'Por favor, digite seu telefone válido.' });
 
     // Se for amigo e tiver telefone na lista, valida. Se for família, apenas salva o número digitado.
     if (selectedGuest.expectedPhone && selectedGuest.expectedPhone !== '********' && selectedGuest.expectedPhone !== '*******') {
         const cleanExpected = selectedGuest.expectedPhone.replace(/\D/g, '');
         if (input !== cleanExpected) {
-            return alert("Número de telefone não confere com o registrado na lista.");
+            return await showCustomModal({ title: 'Telefone Incorreto', message: 'Número de telefone não confere com o registrado na lista.' });
         }
     }
 
@@ -293,16 +293,16 @@ btnFinalConfirm.onclick = () => {
     db.ref(`rsvp/${selectedGuest.id}`).set({
         confirmedAt: firebase.database.ServerValue.TIMESTAMP,
         phoneUsed: input
-    }).then(() => {
+    }).then(async () => {
         // Altera permanentemente o telefone como base principal
         db.ref(`guests/${selectedGuest.id}/phone`).set(input);
 
         markAsConfirmed(selectedGuest.id, input);
         closeModal();
-        alert("Presença confirmada com sucesso! Mal podemos esperar para te ver!");
-    }).catch(err => {
+        await showCustomModal({ title: 'Sucesso!', message: 'Presença confirmada com sucesso! Mal podemos esperar para te ver!' });
+    }).catch(async err => {
         console.error(err);
-        alert("Erro ao confirmar presença. Verifique as Regras de Segurança no Console do Firebase.");
+        await showCustomModal({ title: 'Erro de Servidor', message: 'Erro ao confirmar presença. Verifique as Regras de Segurança no Console do Firebase.' });
     });
 };
 
